@@ -43,3 +43,36 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Additional build exclusions
+**/build/
+**/android/**/build/
+**/ios/**/build/
+**/macos/**/build/
+**/linux/**/build/
+**/windows/**/build/
+**/web/**/build/
+
+# APK files
+*.apk
+*.aab
+
+# Generated files
+*.g.dart
+*.freezed.dart
+
+# Firebase
+firebase_options.dart
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
