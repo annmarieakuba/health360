@@ -6,10 +6,10 @@ import '../models/user.dart';
 import 'health_data_provider.dart';
 
 class AuthProvider with ChangeNotifier {
-  AppUser? _user;
-  final AuthService _authService = AuthService();
+  AppUser? _user;     //current uder is private 
+  final AuthService _authService = AuthService();//an instance of this 
   HealthDataProvider? _healthDataProvider;
-  bool _isInitialized = false;
+  bool _isInitialized = false;//flag 
 
   AppUser? get user => _user;
 
@@ -27,23 +27,23 @@ class AuthProvider with ChangeNotifier {
 
   /// Refreshes user data from SharedPreferences
   /// This is useful when the app needs to sync user data across screens
-  Future<void> refreshUserData() async {
+  Future<void> refreshUserData() async {       //loads data from local storage 
     try {
       final sharedPrefsService = SharedPreferencesService();
       final userInfo = await sharedPrefsService.getUserInfo();
 
-      if (userInfo != null) {
-        _user = AppUser(
+      if (userInfo != null) {     //user data exists 
+        _user = AppUser(          //create the user object
           uid: userInfo['uid'] ?? '',
           email: userInfo['email'] ?? '',
           username: userInfo['username'] ?? '',
           displayName: userInfo['displayName'] ?? '',
         );
-        notifyListeners();
+        notifyListeners();  //notify the UI to update 
         print('User data refreshed from SharedPreferences');
       }
     } catch (e) {
-      print('Error refreshing user data: $e');
+      print('Error refreshing user data: $e'); //error handdling 
     }
   }
 
@@ -106,8 +106,8 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> signUp(String email, String password, String username) async {
     try {
-      _user = await _authService.signUp(email, password, username);
-      if (_user != null) {
+      _user = await _authService.signUp(email, password, username);//create the account 
+      if (_user != null) {                       //signup is successful 
         // Save user info to SharedPreferences
         final sharedPrefsService = SharedPreferencesService();
         await sharedPrefsService.saveUserInfo(
@@ -151,16 +151,11 @@ class AuthProvider with ChangeNotifier {
   }
 
   /// Deletes the user account and clears all associated data
-  /// This method performs a complete cleanup of user data:
-  /// 1. Clears all health data (nutrition, exercise, sleep, mood)
-  /// 2. Clears cached data in SharedPreferences
-  /// 3. Deletes the Firebase authentication account
-  /// 4. Clears local user state
   Future<void> deleteAccount() async {
     try {
       print('=== Starting Account Deletion Process ===');
 
-      // Step 1: Clear all health data from local storage and memory
+      //  Clear all health data from local storage and memory
       // This removes nutrition, exercise, sleep, and mood records
       if (_healthDataProvider != null) {
         print('Step 1: Clearing health data...');
@@ -168,20 +163,20 @@ class AuthProvider with ChangeNotifier {
         print('✓ Health data cleared successfully');
       }
 
-      // Step 2: Clear cached data from SharedPreferences
+      
       // This removes any cached latest data for quick access
       print('Step 2: Clearing SharedPreferences data...');
       final sharedPrefsService = SharedPreferencesService();
       await sharedPrefsService.clearAllCachedData();
       print('✓ SharedPreferences data cleared successfully');
 
-      // Step 3: Delete the Firebase authentication account
+      
       // This removes the user from Firebase Auth system
       print('Step 3: Deleting Firebase account...');
       await _authService.deleteAccount();
       print('✓ Firebase account deleted successfully');
 
-      // Step 4: Clear local user state and notify listeners
+      
       // This ensures the UI updates to reflect the logged-out state
       print('Step 4: Clearing local user state...');
       _user = null;

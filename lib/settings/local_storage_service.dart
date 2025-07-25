@@ -212,11 +212,7 @@ class LocalStorageService {
   }
 
   /// Clears all data from the local SQLite database
-  /// This method removes all records from all health data tables:
-  /// - nutrition: Food items and calorie tracking data
-  /// - exercise: Workout sessions and fitness tracking data
-  /// - sleep: Sleep duration and quality data
-  /// - mood: Emotional state and mood tracking data
+ 
   ///
   /// This is a permanent deletion - data cannot be recovered after this operation
   Future<void> clearAllData() async {

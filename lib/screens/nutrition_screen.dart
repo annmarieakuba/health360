@@ -33,7 +33,7 @@ class _NutritionScreenState extends State<NutritionScreen> {
 
     dailyCalories = healthDataProvider.nutritionData
         .where((nutrition) => nutrition.date.startsWith(today))
-        .fold(0, (sum, nutrition) => sum + nutrition.calories);
+        .fold(0, (sum, nutrition) => sum + nutrition.calories);//sums all calories 
   }
 
   Future<void> _loadNutritionTip() async {

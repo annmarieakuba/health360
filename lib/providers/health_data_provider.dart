@@ -13,13 +13,13 @@ class HealthDataProvider with ChangeNotifier {
       SharedPreferencesService();
   final DatabaseService _databaseService = DatabaseService();
 
-  List<Nutrition> _nutritionData = [];
+  List<Nutrition> _nutritionData = [];//private 
   List<Exercise> _exerciseData = [];
   List<Sleep> _sleepData = [];
   List<Mood> _moodData = [];
 
   bool _isInitialized = false;
-  bool _isLoading = false;
+  bool _isLoading = false;//loading flag 
 
   List<Nutrition> get nutritionData => _nutritionData;
   List<Exercise> get exerciseData => _exerciseData;
@@ -57,7 +57,7 @@ class HealthDataProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Load all data from local storage
+  // Load all data from local storage simultaneously 
   Future<void> _loadAllDataFromLocal() async {
     try {
       final futures = await Future.wait([
@@ -142,7 +142,7 @@ class HealthDataProvider with ChangeNotifier {
     }
   }
 
-  // Individual data fetch methods (enhanced)
+  // Individual data fetch methods 
   Future<void> fetchNutritionData(String userId) async {
     try {
       _nutritionData = await _databaseService.getNutritionData(userId);
@@ -365,31 +365,21 @@ class HealthDataProvider with ChangeNotifier {
     }
   }
 
-  /// Clears all health data from both local storage and memory
-  /// This method performs a complete cleanup of all user health records:
-  /// - Nutrition data (food items, calories)
-  /// - Exercise data (workouts, duration, achievements)
-  /// - Sleep data (sleep hours, dates)
-  /// - Mood data (emotional states, dates)
-  ///
-  /// This is typically called when:
-  /// - User logs out
-  /// - User deletes their account
-  /// - User wants to reset all data
+ 
   Future<void> clearAllData() async {
     try {
-      // Step 1: Clear all data from local SQLite database
+      
       // This removes all records from nutrition, exercise, sleep, and mood tables
       await _localStorageService.clearAllData();
 
-      // Step 2: Clear all data from memory (in-memory arrays)
+      
       // This ensures the UI immediately reflects the cleared state
       _nutritionData = [];
       _exerciseData = [];
       _sleepData = [];
       _moodData = [];
 
-      // Step 3: Notify all listeners (UI widgets) that data has changed
+     
       // This triggers UI updates to show empty states
       notifyListeners();
 

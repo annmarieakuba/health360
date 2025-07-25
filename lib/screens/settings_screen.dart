@@ -26,7 +26,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
     // Refresh user data when screen opens
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {  //after frame is built 
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       await authProvider.refreshUserData();
     });
@@ -40,7 +40,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).pop(),//goes back 
         ),
         title: const Text(
           'Settings',
@@ -132,7 +132,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           CircularProgressIndicator(),
-                                          SizedBox(height: 16),
+                                          SizedBox(height: 16),//creating space 
                                           Text('Syncing data with Firebase...'),
                                         ],
                                       ),
@@ -142,16 +142,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   final userId = authProvider.user!.uid;
                                   final databaseService = DatabaseService();
 
-                                  // Step 1: Download all data from Firebase
+                                  //  Download all data from Firebase
                                   await healthDataProvider
                                       .refreshAllData(userId);
 
-                                  // Step 2: Upload all local data to Firebase
+                                  //  Upload all local data to Firebase
                                   for (final nutrition
                                       in healthDataProvider.nutritionData) {
                                     await databaseService.addNutritionData(
                                         nutrition, userId);
-                                  }
+                                  } //loop through exercise 
                                   for (final exercise
                                       in healthDataProvider.exerciseData) {
                                     await databaseService.addExerciseData(
@@ -168,7 +168,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         mood, userId);
                                   }
 
-                                  // Step 3: Save to local storage
+                                  // Save to local storage
                                   await healthDataProvider
                                       .syncWithFirebase(userId);
 

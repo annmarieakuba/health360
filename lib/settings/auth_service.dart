@@ -96,7 +96,7 @@ class AuthService {
         // This can happen in development mode or if Firebase is not properly configured
         print('No Firebase user to delete, but continuing with mock deletion');
 
-        // Ensure we're signed out
+       
         try {
           await _auth.signOut();
           print('✓ User signed out successfully');

@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/health_data_provider.dart';
 import '../providers/auth_provider.dart';
+import 'goals_screen.dart';
+import 'trends_screen.dart';
+import 'progress_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -108,6 +111,59 @@ class _HomeScreenState extends State<HomeScreen> {
               title: 'Nutrition',
               value: _getNutritionValue(healthData.nutritionData),
               subtitle: _getNutritionSubtitle(healthData.nutritionData),
+            ),
+            const SizedBox(height: 30),
+
+            // Additional Features Section
+            _SectionHeader(title: 'Additional Features'),
+            const SizedBox(height: 12),
+
+            // Goals Card
+            _FeatureCard(
+              icon: Icons.flag,
+              title: 'Goals',
+              description: 'Set and track your health objectives',
+              color: Colors.blue,
+              onTap: () {
+                // Navigate to goals screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const GoalsScreen()),
+                );
+              },
+            ),
+            const SizedBox(height: 12),
+
+            // Trends Card
+            _FeatureCard(
+              icon: Icons.trending_up,
+              title: 'Trends',
+              description: 'View your health data analytics',
+              color: Colors.orange,
+              onTap: () {
+                // Navigate to trends screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TrendsScreen()),
+                );
+              },
+            ),
+            const SizedBox(height: 12),
+
+            // Progress Card
+            _FeatureCard(
+              icon: Icons.assessment,
+              title: 'Progress',
+              description: 'Track your achievements and milestones',
+              color: Colors.purple,
+              onTap: () {
+                // Navigate to progress screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProgressScreen()),
+                );
+              },
             ),
             const SizedBox(height: 30),
 
@@ -479,6 +535,77 @@ class _QuickActionButton extends StatelessWidget {
               style: const TextStyle(
                   color: Colors.white, fontWeight: FontWeight.w500)),
         ],
+      ),
+    );
+  }
+}
+
+class _FeatureCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String description;
+  final Color color;
+  final VoidCallback onTap;
+
+  const _FeatureCard({
+    required this.icon,
+    required this.title,
+    required this.description,
+    required this.color,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      elevation: 4,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(icon, color: color, size: 24),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      description,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+                color: Colors.grey[400],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

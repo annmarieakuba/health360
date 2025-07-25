@@ -11,12 +11,12 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      obscureText: isPassword,
+      obscureText: isPassword,//hides text 
       decoration: InputDecoration(
         labelText: label,
         border: const OutlineInputBorder(),
       ),
-      validator: (value) {
+      validator: (value) { //validation function 
         if (value == null || value.isEmpty) {
           return '$label is required';
         }

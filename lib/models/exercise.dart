@@ -34,8 +34,8 @@ class Exercise {
       return '${duration}m';
     } else {
       final hours = duration ~/ 60;
-      final minutes = duration % 60;
-      return minutes > 0 ? '${hours}h ${minutes}m' : '${hours}h';
+      final minutes = duration % 60;//remaining minutes 
+      return minutes > 0 ? '${hours}h ${minutes}m' : '${hours}h';//formatting 
     }
   }
 }

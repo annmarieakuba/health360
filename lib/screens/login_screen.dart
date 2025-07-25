@@ -10,7 +10,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final emailController = TextEditingController();
+    final emailController = TextEditingController();//manage text input 
     final passwordController = TextEditingController();
 
     return Scaffold(

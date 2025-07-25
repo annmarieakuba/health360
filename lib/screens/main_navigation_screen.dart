@@ -7,6 +7,9 @@ import 'nutrition_screen.dart';
 import 'exercise_screen.dart';
 import 'sleep_screen.dart';
 import 'mood_screen.dart';
+import 'goals_screen.dart';
+import 'trends_screen.dart';
+import 'progress_screen.dart';
 import 'settings_screen.dart';
 import 'profile_screen.dart';
 import 'sync_data_screen.dart';
@@ -20,7 +23,7 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 0; //selected tab index
 
   static final List<Widget> _screens = [
     const HomeScreen(),
@@ -28,12 +31,16 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     const ExerciseScreen(),
     const SleepScreen(),
     const MoodScreen(),
+    const GoalsScreen(),
+    const TrendsScreen(),
+    const ProgressScreen(),
     const SettingsScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Consumer<HealthDataProvider>(
+      //listen to changes
       builder: (context, healthDataProvider, child) {
         // Show loading screen while data is being initialized
         if (!healthDataProvider.isInitialized && healthDataProvider.isLoading) {
@@ -80,8 +87,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           drawer: _ProfileDrawer(),
           appBar: AppBar(
             backgroundColor: Colors.white,
-            elevation: 0,
+            elevation: 0, //no shadow
             leading: Builder(
+              //menu button builder
               builder: (context) => IconButton(
                 icon: const Icon(Icons.menu, color: Color(0xFF3A5A98)),
                 onPressed: () => Scaffold.of(context).openDrawer(),
@@ -105,9 +113,11 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                       context,
                       listen: false);
                   if (authProvider.user != null) {
-                    await healthDataProvider
+                    //user is loged in or not
+                    await healthDataProvider //refresh all health data
                         .refreshAllData(authProvider.user!.uid);
                     ScaffoldMessenger.of(context).showSnackBar(
+                      //show a success message
                       const SnackBar(content: Text('Data refreshed!')),
                     );
                   }
@@ -146,6 +156,18 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 label: 'Mood',
               ),
               BottomNavigationBarItem(
+                icon: Icon(Icons.flag),
+                label: 'Goals',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.trending_up),
+                label: 'Trends',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.assessment),
+                label: 'Progress',
+              ),
+              BottomNavigationBarItem(
                 icon: Icon(Icons.settings),
                 label: 'Settings',
               ),
@@ -169,6 +191,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       case 4:
         return 'Mood';
       case 5:
+        return 'Goals';
+      case 6:
+        return 'Trends';
+      case 7:
+        return 'Progress';
+      case 8:
         return 'Settings';
       default:
         return '';
